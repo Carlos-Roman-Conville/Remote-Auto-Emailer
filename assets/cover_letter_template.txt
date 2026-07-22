@@ -1,0 +1,13 @@
+Dear {contact_name},
+
+I'm writing to express my interest in the {job_title} position at {company}.
+
+As a Python developer specializing in web scraping, automation, and AI integration, I bring hands-on experience building data pipelines with Selenium, BeautifulSoup, and Claude/OpenAI APIs. I've built automated systems that scrape, process, and analyze data at scale — delivering clean, actionable results through Streamlit dashboards and FastAPI backends.
+
+My technical toolkit includes Python, PostgreSQL, API integration, and end-to-end automation workflows. I'm comfortable working with modern AI tools and have built production systems that leverage LLMs for data classification, scoring, and content generation.
+
+I'd welcome the chance to discuss how my skills align with what you're looking for. Happy to chat for 15 minutes at your convenience.
+
+Best regards,
+Carlos R.
+cromanconville@gmail.com
