@@ -1,17 +1,16 @@
 import anthropic
 from config import ANTHROPIC_API_KEY, KEYWORDS
 from db import update_scores, get_conn
-from psycopg2.extras import RealDictCursor
 
 client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
 SCORING_PROMPT = """You are a job match scorer. Rate how well this job matches the candidate's profile.
 
 CANDIDATE PROFILE:
-- Skills: Python, Selenium, BeautifulSoup, web scraping, API integration, Claude API, OpenAI API, PostgreSQL, Streamlit, FastAPI, SQL, data pipelines, automation
-- Experience: Technical Operations Specialist, freelance developer
+- Background: Technical Operations Specialist (2+ years), freelance automation work
+- Skills: Python (scripting/automation, NOT software engineering), web scraping (Selenium, BeautifulSoup), API integration, Claude/OpenAI APIs, SQL, Streamlit, FastAPI, data entry, process automation
 - Education: B.A. Political Science, Rowan University
-- Looking for: Remote Python/automation/data/AI roles, entry to mid level
+- Looking for: Remote operations, admin, data, automation, project coordination, or analyst roles. Entry to mid level. NOT a software developer/engineer — do not match to roles requiring CS degrees, system design, or production software engineering
 
 JOB LISTING:
 Title: {title}
@@ -58,9 +57,10 @@ def score_job(job: dict) -> tuple[float, str]:
 
 def score_all_unscored():
     conn = get_conn()
-    with conn.cursor(cursor_factory=RealDictCursor) as cur:
-        cur.execute("SELECT * FROM jobs WHERE status = 'scraped' ORDER BY keyword_score DESC")
-        jobs = [dict(r) for r in cur.fetchall()]
+    conn.row_factory = lambda c, r: dict(zip([col[0] for col in c.description], r))
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM jobs WHERE status = 'scraped' ORDER BY keyword_score DESC")
+    jobs = cur.fetchall()
     conn.close()
 
     print(f"Scoring {len(jobs)} unscored jobs...")

@@ -1,4 +1,6 @@
 .env
 __pycache__/
 *.pyc
+*.db
 assets/resume.pdf
+setup_db.py
